@@ -21,7 +21,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.bluetoothlegatt.R;
@@ -62,11 +65,17 @@ public class DeviceControlActivity extends Activity implements View.OnClickListe
     private Button mButtonWrite;
     private Button mButtonPlay;
     private TextView mTextview;
+    private ProgressBar mProgressBar;
     private String mDeviceName;
     private String mDeviceAddress;
     private BluetoothThread mBluetootThread;
+    private HttpURLConnection mHttpURLConnection;
     private TimeRecord mTimeRecord;
     public int record_arr[];
+
+    Animation flowAnim,growAnim;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,8 +93,12 @@ public class DeviceControlActivity extends Activity implements View.OnClickListe
         mBluetootThread = new BluetoothThread(this, mDeviceAddress, mDeviceName, mhandler);
         mBluetootThread.run();
 
+        mHttpURLConnection = new HttpURLConnection("http://52.69.24.220:80");
+
+
         record_arr = new int[1500];
 
+        mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         mTextview = (TextView) findViewById(R.id.state);
         mButtonPlay = (Button) findViewById( R.id.button_c);
         mButtonPlay.setOnClickListener(this);
@@ -95,6 +108,49 @@ public class DeviceControlActivity extends Activity implements View.OnClickListe
         mButtonSetup.setText("Timer start");
         mButtonWrite = (Button) findViewById(R.id.button_b);
         mButtonWrite.setOnClickListener(this);
+
+
+
+        mHttpURLConnection.start();
+
+
+
+        growAnim= AnimationUtils.loadAnimation(this,R.anim.grow);
+        growAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        flowAnim = AnimationUtils.loadAnimation(this, R.anim.flow);
+        flowAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
     }
 
     @Override
@@ -128,15 +184,32 @@ public class DeviceControlActivity extends Activity implements View.OnClickListe
                         record_arr[i] = 0;
 
                     state = RECORD_MODE;
+
+                    mTimeRecord.record_start();
+
+                    mProgressBar.startAnimation(growAnim);
+
                 }
 
-                mTimeRecord.record_start();
 
                 break;
 
             case R.id.button_b:
 
                 mBluetootThread.write(null);
+
+                 // mHttpURLConnection.start();
+
+                try {
+
+              //      mMusicPlayerThread.playAudio();
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                // mTextview.startAnimation(flowAnim);
+               // mProgressBar.startAnimation(growAnim);
 
                 break;
 
@@ -145,6 +218,8 @@ public class DeviceControlActivity extends Activity implements View.OnClickListe
                 if (state == NOMAL_MODE) {
 
                     state = PLAY_MODE;
+
+                    mProgressBar.startAnimation(growAnim);
 
                     mTimeRecord.Play_Recorded(record_arr);
                 }
@@ -244,6 +319,6 @@ public class DeviceControlActivity extends Activity implements View.OnClickListe
         }
     }
 
-    ;
+
 
 }

@@ -25,10 +25,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/button_a"
-            android:text="connect"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="connect" />
 
     </LinearLayout>
 
@@ -39,10 +39,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/button_b"
-            android:text="write"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="write" />
 
     </LinearLayout>
 
@@ -53,10 +53,10 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_c"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button_c"
-            android:text="play"/>
+            android:text="play" />
 
     </LinearLayout>
 
@@ -68,11 +68,30 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:id="@+id/state"
-            android:text="no Record"/>
+            android:text="no Record" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/mProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateOnly="false"
+            android:max="100"
+            android:maxHeight="20dp"
+            android:minHeight="20dp"
+            />
 
     </LinearLayout>
 
